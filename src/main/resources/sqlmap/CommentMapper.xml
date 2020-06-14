@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.likai.blog.dao.ICommentDao">
+
+  <resultMap id="BaseResultMap" type="com.likai.blog.po.Comment">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="blog_id" jdbcType="INTEGER" property="blogId" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="comment_writer_id" jdbcType="INTEGER" property="commentWriterId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="reply_id" jdbcType="INTEGER" property="replyId" />
+  </resultMap>
+
+  <select id="select" resultMap="BaseResultMap" parameterType="com.likai.blog.po.Comment">
+    SELECT
+        *
+    FROM
+        t_comment
+    <where>
+      <if test="blogId != null and blogId != ''">AND blog_id = #{blogId}</if>
+      <if test="commentWriterId != null and commentWriterId != ''">AND comment_writer_id = #{commentWriterId}</if>
+    </where>
+  </select>
+
+  <delete id="deleteByKey" parameterType="int">
+    DELETE FROM t_comment WHERE id = #{key}
+  </delete>
+</mapper>

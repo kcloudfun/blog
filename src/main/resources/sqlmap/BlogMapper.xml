@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.likai.blog.dao.IBlogDao">
+
+    <resultMap id="BaseResultMap" type="com.likai.blog.po.Blog">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="writer_id" jdbcType="VARCHAR" property="writerId"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+
+    <select id="select" resultMap="BaseResultMap" parameterType="com.likai.blog.po.Blog">
+        SELECT
+        *
+        FROM
+        t_blog
+        <where>
+            <if test="type != null and type != ''">AND type = #{type}</if>
+            <if test="writerId != null and writerId != ''">AND writer_id = #{writerId}</if>
+        </where>
+    </select>
+
+    <delete id="deleteByKey" parameterType="int">
+    DELETE FROM t_blog WHERE id = #{id}
+  </delete>
+
+    <insert id="insert" parameterType="com.likai.blog.po.Blog">
+        insert into t_blog
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="writerId != null">
+                writer_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="writerId != null">
+                #{writerId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+</mapper>

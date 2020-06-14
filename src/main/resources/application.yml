@@ -1,0 +1,15 @@
+server:
+  port: 0
+
+logging:
+  level:
+    com.likai: debug
+
+spring:
+  application:
+    name: blog
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
